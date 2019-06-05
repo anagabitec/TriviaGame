@@ -1,24 +1,9 @@
 body {
-    background-size: 900px;
     margin: auto;
 	font-family: Arial, Helvetica, sans-serif;
     color: rgb(16, 48, 233);
     background-color: #dbc8d5;
     
-}
-.container {
-    overflow: auto;
-    width: 880px;
-    position: absolute;
-    margin: 30px 200px 100px 200px;
-   
-    
-    
-}
-.jumbotron{
-    border-color: #ec71d8 
-    
-   
 }
 h1 {
     color: #f015ae;
@@ -29,35 +14,28 @@ h1 {
     text-shadow: 1.5px 1.5px #3681f1;
 }
 
-h2{
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    color: blue; 
-    text-shadow: 1px 1px #ec71d8;
-    
-}
-
 p {
     text-align: center;
 }
 
 .startBtn {
     font-family: Arial, Helvetica, sans-serif;
-	font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    color: whitesmoke; 
+    text-shadow: 1px 1px #ec71d8;
+    font-size: 20px;
 	background-color: #0a0dbd;
-	color: #fff;
 	padding: 20px;
 	cursor: pointer;
 	text-align: center;
     position: relative;
     left: 400px;
     width: 200px;
-    height: 20sx;
+    height: 70px;
 
 }
-
 .startBtn:hover{
 	background-color: rgb(50, 117, 218);
 }
@@ -99,7 +77,7 @@ p {
     display: block;
 }
 
-.quiz-container {
+/*.quiz-container {
     position: relative;
     height: 240px;
     margin-top: 40px;

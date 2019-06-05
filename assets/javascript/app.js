@@ -1,4 +1,4 @@
-$(document).ready(function () {
+//$(document).ready(function () {
 
     // // GLOBAL VARIABLES  
     // var correctAnswers = 0;
@@ -8,13 +8,10 @@ $(document).ready(function () {
     // var intervalId;
     // var timer = 60;
     
-    var score = 0; 
+    //var score = 0; 
    
-
-
-
     // CRREATING ARRAYS FOR QUESTIIONS
-    var questions = [
+    var myQuestions = [
         {
             question: "The city of New York is made up of_____ boroughs.",
             answers: {
@@ -72,6 +69,11 @@ $(document).ready(function () {
         },
     ];
 
+    
+    $('#next').hide();
+    $('#submit').hide();
+    var counter = 0;
+
     // Quiz
     function buildQuiz() {
         // blank array to push user answers into, and a correct answers array
@@ -99,13 +101,113 @@ $(document).ready(function () {
         quizContainer.innerHTML = output.join("");
         console.log("TCL: buildQuiz -> output", output)
     }
+
+    function showResults() {
+        // gather answer containers from our quiz
+        var allAnswers = quizContainer.querySelectorAll('.answers');
+        console.log("TCL: showResults -> allAnswers", allAnswers)
+        // keep track of user's answers
+        var numCorrect = 0;
+        var unanswered = 0;
+        // for each question...
+        myQuestions.forEach((currentQuestion, questionNumber) => {
+            // find selected answer
+            var answerContainer = allAnswers[questionNumber];
+            var selector = `input[name=question${questionNumber}]:checked`;
+            var isChecked = answerContainer.querySelector(selector);
+            var userAnswer = isChecked ? isChecked.value : '';
+
+            // if answer is correct
+            if (userAnswer === currentQuestion.correctAnswer) {
+                // add to the number of correct answers
+                numCorrect++;
+                // color the answers green
+                // allAnswers[questionNumber].style.color = 'lightgreen';
+            }
+            else if (userAnswer === '') {
+                unanswered++;
+            }
+            // if answer is wrong or blank
+            else {
+                // color the answers red
+                allAnswers[questionNumber].style.color = 'red';
+            }
+        });
+        // show number of correct answers out of total
+        resultsContainer.innerHTML = 'Wow...You "walked the line" and got ' + numCorrect + ' out of ' + myQuestions.length + ' answers correct';
+        $('#counter').html('in ' + counter + " seconds!");
+    }
+
+    function showSlide(n) {
+        $(slides[currentSlide]).removeClass('active-slide');
+        $(slides[n]).addClass('active-slide');
+        currentSlide = n;
+       
+        
+        if (currentSlide === slides.length - 1) {
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'inline-block';
+        }
+        else {
+            nextButton.style.display = 'inline-block';
+            submitButton.style.display = 'none';
+        }
+    }
+
+    function showNextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
     
 
-    // START BUTTON 
-    $("#startButton").on("click", function (event) {
-        $("#quiz").empty();
-        $("#startButton").addClass("d-none")
-        generateQuestions(questions)
-    })
+    var quizContainer = document.getElementById("quiz");
+    var resultsContainer = document.getElementById("results");
+    submitButton = document.getElementById("submit");
+
+    buildQuiz();
+
     
-});
+    var nextButton = document.getElementById("next");
+    var slides = document.querySelectorAll(".slide");
+    let currentSlide = 0;
+
+    nextButton.addEventListener("click", showNextSlide);
+    
+    submitButton.addEventListener("click", showResults);
+
+    var interval;
+    var intervalTime;
+
+
+    function startTimer() {
+        clearInterval(interval);
+        interval = setInterval(gameOver, 60000);
+        clearInterval(intervalTime);
+        intervalTime = setInterval(increment, 1000);
+    }
+    function increment() {
+        console.log(counter);
+        counter++;
+    }
+
+    function gameOver() {
+        clearInterval(interval);
+        clearInterval(intervalTime);
+        
+        $("#submit").hide();
+        $(".slide").hide();
+        $('.active-slide').removeClass('.active-slide');
+        showResults(myQuestions, quizContainer, resultsContainer)
+    }
+
+    $(".startBtn").click(function () {
+        $("p").hide();
+        $(".startBtn").hide();
+        showSlide(0);
+        startTimer();
+    });
+
+
+
+    // when user clicks submit, show results, show Sun Records gif, play Great Balls of Fire
+    
