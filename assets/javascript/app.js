@@ -72,18 +72,40 @@ $(document).ready(function () {
         },
     ];
 
+    // Quiz
+    function buildQuiz() {
+        // blank array to push user answers into, and a correct answers array
+        var output = [];
+        // for each question, store the list of answer choices
+        myQuestions.forEach((currentQuestion, questionNumber) => {
+            var answers = [];
+            // for each available answer to this question
+            for (letter in currentQuestion.answers) {
+                // add an html radio button
+                answers.push(`<label>
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} :
+                ${currentQuestion.answers[letter]}
+                </label>`
+                );
+            }
+            output.push(`<div class="slide">
+                        <div class="question"> ${currentQuestion.question} </div>
+                        <div class="answers"> ${answers.join("")} </div>
+                        </div>`
+            );
+        });
+
+        quizContainer.innerHTML = output.join("");
+        console.log("TCL: buildQuiz -> output", output)
+    }
     
-    
 
-
-
-    
-
-    // // START BUTTON 
-    // $("#startButton").on("click", function (event) {
-    //     $("#quiz").empty();
-    //     $("#startButton").addClass("d-none")
-    //     generateQuestions(questions)
-    // })
+    // START BUTTON 
+    $("#startButton").on("click", function (event) {
+        $("#quiz").empty();
+        $("#startButton").addClass("d-none")
+        generateQuestions(questions)
+    })
     
 });
